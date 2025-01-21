@@ -1,7 +1,7 @@
 specVersion: v0.1.0
 package:
   name: bitapple
-  version: v0.1.0
+  version: v0.1.1
 
 imports:
   solana: https://spkg.io/streamingfast/solana-common-v0.3.0.spkg

@@ -44,9 +44,9 @@ message BurnEvent {
       string staker_token_account = 8;
 }message WrapEvent {
   string trx_hash = 1;
-      AssetInfo asset_info = 2;
-      string asset_account = 3;
-      string owner = 4;
+  AssetInfo asset_info = 2;
+  string asset_account = 3;
+  string owner = 4;
 }
 
 message InitAssetManager {

@@ -11,11 +11,11 @@ use pb::substreams::v1::program::MintEvent;
 use pb::substreams::v1::program::StakeEvent;
 use pb::substreams::v1::program::UnstakeEvent;
 use pb::substreams::v1::program::WrapEvent;
-use pb::substreams::v1::program::InitAssetManager;
-use pb::substreams::v1::program::Stake;
-use pb::substreams::v1::program::Unstake;
-use pb::substreams::v1::program::WrapAsset;
-use pb::substreams::v1::program::UnwrapAsset;
+// use pb::substreams::v1::program::InitAssetManager;
+// use pb::substreams::v1::program::Stake;
+// use pb::substreams::v1::program::Unstake;
+// use pb::substreams::v1::program::WrapAsset;
+// use pb::substreams::v1::program::UnwrapAsset;
 
 
 use sologger_log_context::programs_selector::ProgramsSelector;
@@ -31,11 +31,11 @@ fn map_program_data(blk: Block) -> Data {
     let mut stake_event_list: Vec<StakeEvent> = Vec::new();
     let mut unstake_event_list: Vec<UnstakeEvent> = Vec::new();
     let mut wrap_event_list: Vec<WrapEvent> = Vec::new();
-    let mut init_asset_manager_list: Vec<InitAssetManager> = Vec::new();
-    let mut stake_list: Vec<Stake> = Vec::new();
-    let mut unstake_list: Vec<Unstake> = Vec::new();
-    let mut wrap_asset_list: Vec<WrapAsset> = Vec::new();
-    let mut unwrap_asset_list: Vec<UnwrapAsset> = Vec::new();
+    // let init_asset_manager_list: Vec<InitAssetManager> = Vec::new();
+    // let stake_list: Vec<Stake> = Vec::new();
+    // let unstake_list: Vec<Unstake> = Vec::new();
+    // let mut wrap_asset_list: Vec<WrapAsset> = Vec::new();
+    // let mut unwrap_asset_list: Vec<UnwrapAsset> = Vec::new();
 
     blk.transactions().for_each(|transaction| {
 
@@ -131,15 +131,15 @@ fn map_program_data(blk: Block) -> Data {
                                         asset_account: event.asset_account.to_string(),
                                         owner: event.owner.to_string(),
                                         asset_info: Some(pb::substreams::v1::program::AssetInfo {
-                                            owner: event.asset_info.owner.clone(),
+                                            owner: event.asset_info.owner.to_string(),
                                             supply_no: event.asset_info.supply_no,
-                                            assets: event.asset_info.assets.into_iter().map(|a| Asset {
-                                                token_address: a.token_address.clone(),
+                                            assets: event.asset_info.assets.iter().map(|a| Asset {
+                                                token_address: a.token_address.to_string(),
                                                 amount: a.amount,
                                             }).collect(),
                                             start_time: event.asset_info.start_time,
-                                            mint_account: event.asset_info.mint_account.clone(),
-                                            token_account: event.asset_info.token_account.clone(),
+                                            mint_account: event.asset_info.mint_account.to_string(),
+                                            token_account: event.asset_info.token_account.to_string(),
                                         }),
                                     });
                                 }
@@ -213,8 +213,6 @@ fn map_program_data(blk: Block) -> Data {
         //         {
         //             let accts = inst.accounts();
         //             wrap_asset_list.push(WrapAsset {
-        //                 trx_hash: transaction.id(),
-        //                 assets: instruction.assets.into_iter().map(|assets| Asset {
 		// 				token_address: assets.token_address.to_string(),amount: assets.amount as u64,
 		// 			}).collect(),
         //                 acct_owner: accts[0].to_string(),
@@ -248,11 +246,11 @@ fn map_program_data(blk: Block) -> Data {
         stake_event_list,
         unstake_event_list,
         wrap_event_list,
-        init_asset_manager_list,
-        stake_list,
-        unstake_list,
-        wrap_asset_list,
-        unwrap_asset_list,
+        init_asset_manager_list: Vec::new(),
+        stake_list: Vec::new(),
+        unstake_list: Vec::new(),
+        wrap_asset_list: Vec::new(),
+        unwrap_asset_list: Vec::new(),
     }
 }
 
