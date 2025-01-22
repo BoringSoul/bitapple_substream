@@ -12,14 +12,20 @@ export function handleTriggers(bytes: Uint8Array): void {
     wrapEventEntity.assetInfo = "";  // 设置默认值
     if(wrapEvent.assetInfo) { 
       const assetInfo = wrapEvent.assetInfo!;
+      let assetsString = "";
+      for (let j = 0; j < assetInfo.assets.length; j++) {
+        const asset = assetInfo.assets[j];
+        if (j > 0) {
+          assetsString += ",";
+        }
+        assetsString += `{"tokenAddress":"${asset.tokenAddress}","amount":${asset.amount}}`;
+      }
       wrapEventEntity.assetInfo = `{owner:"${assetInfo.owner}",` +
         `supplyNo:${assetInfo.supplyNo},` +
         `startTime:${assetInfo.startTime},` +
         `mintAccount:"${assetInfo.mintAccount}",` +
         `tokenAccount:"${assetInfo.tokenAccount}",` +
-        `assets:[${assetInfo.assets.map((a:Asset) => 
-          `{"tokenAddress":"${a.tokenAddress}","amount":${a.amount}}`
-        ).join(',')}]}`;
+        `assets:[${assetsString}]}`;
     }
     wrapEventEntity.owner = wrapEvent.owner;
     wrapEventEntity.save();
