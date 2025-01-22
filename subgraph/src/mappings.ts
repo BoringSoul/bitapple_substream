@@ -1,8 +1,7 @@
 import { Protobuf } from "as-proto/assembly";
 import { Data as protoData } from "./pb/substreams/v1/program/Data";
 import { WrapEvent, MintEvent, BurnEvent, StakeEvent, UnstakeEvent } from "../generated/schema";
-import { BigInt, log, crypto, Bytes} from "@graphprotocol/graph-ts";
-import { AssetInfo } from "./pb/substreams/v1/program/AssetInfo";
+import { Asset } from "./pb/substreams/v1/program/Asset";
 
 export function handleTriggers(bytes: Uint8Array): void {
   const input = Protobuf.decode<protoData>(bytes, protoData.decode);
@@ -12,13 +11,13 @@ export function handleTriggers(bytes: Uint8Array): void {
     wrapEventEntity.assetAccount = wrapEvent.assetAccount;
     wrapEventEntity.assetInfo = "";  // 设置默认值
     if(wrapEvent.assetInfo) { 
-      const assetInfo = changetype<AssetInfo>(wrapEvent.assetInfo);
+      const assetInfo = wrapEvent.assetInfo!;
       wrapEventEntity.assetInfo = `{owner:"${assetInfo.owner}",` +
         `supplyNo:${assetInfo.supplyNo},` +
         `startTime:${assetInfo.startTime},` +
         `mintAccount:"${assetInfo.mintAccount}",` +
         `tokenAccount:"${assetInfo.tokenAccount}",` +
-        `assets:[${assetInfo.assets.map(a => 
+        `assets:[${assetInfo.assets.map((a:Asset) => 
           `{"tokenAddress":"${a.tokenAddress}","amount":${a.amount}}`
         ).join(',')}]}`;
     }

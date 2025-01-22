@@ -180,6 +180,150 @@ export class AssetInfo extends Entity {
   set symbol(value: string) {
     this.set("symbol", Value.fromString(value));
   }
+
+  get owner(): string {
+    let value = this.get("owner");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set owner(value: string) {
+    this.set("owner", Value.fromString(value));
+  }
+
+  get supplyNo(): BigInt {
+    let value = this.get("supplyNo");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set supplyNo(value: BigInt) {
+    this.set("supplyNo", Value.fromBigInt(value));
+  }
+
+  get assets(): Array<string> {
+    let value = this.get("assets");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set assets(value: Array<string>) {
+    this.set("assets", Value.fromStringArray(value));
+  }
+
+  get startTime(): BigInt {
+    let value = this.get("startTime");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set startTime(value: BigInt) {
+    this.set("startTime", Value.fromBigInt(value));
+  }
+
+  get mintAccount(): string {
+    let value = this.get("mintAccount");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set mintAccount(value: string) {
+    this.set("mintAccount", Value.fromString(value));
+  }
+
+  get tokenAccount(): string {
+    let value = this.get("tokenAccount");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set tokenAccount(value: string) {
+    this.set("tokenAccount", Value.fromString(value));
+  }
+}
+
+export class Asset extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Asset entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Asset must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+      );
+      store.set("Asset", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): Asset | null {
+    return changetype<Asset | null>(store.get_in_block("Asset", id));
+  }
+
+  static load(id: string): Asset | null {
+    return changetype<Asset | null>(store.get("Asset", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get tokenAddress(): string {
+    let value = this.get("tokenAddress");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set tokenAddress(value: string) {
+    this.set("tokenAddress", Value.fromString(value));
+  }
+
+  get amount(): BigInt {
+    let value = this.get("amount");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set amount(value: BigInt) {
+    this.set("amount", Value.fromBigInt(value));
+  }
 }
 
 export class MintEvent extends Entity {

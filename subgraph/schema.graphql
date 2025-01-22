@@ -11,7 +11,18 @@ type AssetInfo @entity {
   id: ID!
   name: String!
   symbol: String!
-  # 其他 AssetInfo 相关字段
+  owner: String!
+  supplyNo: BigInt!
+  assets: [Asset!]!
+  startTime: BigInt!
+  mintAccount: String!
+  tokenAccount: String!
+}
+
+type Asset @entity {
+  id: ID!
+  tokenAddress: String!
+  amount: BigInt!
 }
 
 type MintEvent @entity {
